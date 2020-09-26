@@ -23,6 +23,10 @@ class RunCommand extends Command
         'virologen'
     ];
 
+    const TERMS_STUPID_COMMENTS = [
+
+    ];
+
     protected static $defaultName = 'app:run';
 
     protected function configure()
