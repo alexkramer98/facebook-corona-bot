@@ -152,12 +152,16 @@ class RunCommand extends Command
 
     private function findCommentsMatchingTerms(RemoteWebElement $post): array
     {
-        $commentDropdownMenu = $post
-            ->findElement(
-                WebDriverBy::cssSelector('a[data-ordering="RANKED_THREADED"]')
-            )
-        ;
-        $commentDropdownMenu->click();
+        try {
+            $commentDropdownMenu = $post
+                ->findElement(
+                    WebDriverBy::cssSelector('a[data-ordering="RANKED_THREADED"]')
+                )
+            ;
+            $commentDropdownMenu->click();
+        } catch (\Exception $exception) {
+            return [];
+        }
         $this->client
             ->findElement(
                 WebDriverBy::cssSelector('ul[role="menu"] > li:nth-child(3) > a:first-child')
@@ -169,7 +173,7 @@ class RunCommand extends Command
             try {
                 $post
                     ->findElement(
-                        WebDriverBy::partialLinkText('weergeven')
+                        WebDriverBy::partialLinkText('opmerkingen weergeven')
                     )->click()
                 ;
                 sleep(3);
@@ -177,31 +181,34 @@ class RunCommand extends Command
                 break;
             }
         }
-
-        echo 'Done scanning comments' . PHP_EOL;
-
-        return [];
-
-//        $comments = $post->findElements(
-//            WebDriverBy::cssSelector('div:first-child > div:first-child > div:first-child > div:nth-child(2) > div:nth-child(2) > form:first-child > div:first-child > div:nth-child(3) > ')
-//        );
+        $comments = $post->findElements(
+            WebDriverBy::cssSelector('div[aria-label="Opmerking"]'
+            )
+        );
+        $terms = implode('|', $this->commentSearchTerms);
+        $comments = array_filter($comments, function($comment) use ($terms) {
+            return preg_match('('.$terms.')', $comment->getText()) === 1;
+        });
+        $this->logger->log(sprintf('Found %s matching comments', count($comments)), 'Info');
+        return $comments;
     }
 
-    private function placeCommentIfNotExists(RemoteWebElement $post, RemoteWebElement $stupidComment): void
+    private function placeCommentIfNotExists(RemoteWebElement $comment): void
     {
-
+        dump($comment);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        while(true) {
-            $this->logger->log('Initiated', 'Info');
-            $this->login($this->getFacebookCredentials());
-            foreach ($this->pagesToCrawl as $page) {
-                $posts = $this->findPostsMatchingTerms($page, $this->postSearchTerms);
-                foreach ($posts as $key => $post) {
-                    $this->logger->log('Processing post ' . $key, 'Info');
-                    $comments = $this->findCommentsMatchingTerms($post);
+        $this->logger->log('Initiated', 'Info');
+        $this->login($this->getFacebookCredentials());
+        foreach ($this->pagesToCrawl as $page) {
+            $posts = $this->findPostsMatchingTerms($page, $this->postSearchTerms);
+            foreach ($posts as $key => $post) {
+                $this->logger->log('Processing post ' . $key, 'Info');
+                $comments = $this->findCommentsMatchingTerms($post);
+                foreach($comments as $comment) {
+                    $this->placeCommentIfNotExists($comment);
                 }
             }
         }
