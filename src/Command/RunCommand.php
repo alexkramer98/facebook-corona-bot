@@ -24,7 +24,29 @@ class RunCommand extends Command
     ];
 
     const TERMS_STUPID_COMMENTS = [
-
+        'pinokio',
+        'pinokkio',
+        'viruswaanzin',
+        'virus waanzin',
+        'schapen',
+        'complot',
+        'pcr test',
+        'pcr-test',
+        'fake news',
+        'fake nieuws',
+        'petitie',
+        'word wakker',
+        'agenda 30',
+        'geheime agenda',
+        'waarheid',
+        'bedonderd',
+        'ikdoenietmeermee',
+        'onzin',
+        'voor de gek gehouden',
+        'de waarheid',
+        'gif',
+        'wake up',
+        'oogkleppen'
     ];
 
     protected static $defaultName = 'app:run';
