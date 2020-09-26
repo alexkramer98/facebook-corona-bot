@@ -2,67 +2,52 @@
 
 namespace App\Command;
 
+use App\Service\Logger;
+use App\Service\TextFileExtractor;
 use Facebook\WebDriver\Remote\RemoteWebElement;
 use Facebook\WebDriver\WebDriverBy;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Panther\Client;
 
 class RunCommand extends Command
 {
-    const TERMS_CORONA = [
-        'corona',
-        'covid',
-        'virus',
-        'virussen',
-        'viroloog',
-        'virologen'
-    ];
+    /**
+     * @var Client
+     */
+    private $client;
+    /**
+     * @var array
+     */
+    private $pagesToCrawl;
+    /**
+     * @var array
+     */
+    private $postSearchTerms;
+    /**
+     * @var array
+     */
+    private $commentSearchTerms;
+    /**
+     * @var Logger
+     */
+    private $logger;
 
-    const TERMS_STUPID_COMMENTS = [
-        'pinokio',
-        'pinokkio',
-        'viruswaanzin',
-        'virus waanzin',
-        'schapen',
-        'complot',
-        'pcr test',
-        'pcr-test',
-        'fake news',
-        'fake nieuws',
-        'petitie',
-        'word wakker',
-        'agenda 30',
-        'geheime agenda',
-        'waarheid',
-        'bedonderd',
-        'ikdoenietmeermee',
-        'onzin',
-        'voor de gek gehouden',
-        'de waarheid',
-        'gif',
-        'wake up',
-        'oogkleppen'
-    ];
-
-    protected static $defaultName = 'app:run';
-
-    protected function configure()
+    public function __construct(TextFileExtractor $textFileExtractor, string $name = null)
     {
-
-    }
-
-    public function getClient(): Client
-    {
-        return Client::createChromeClient('./chromedriver', [
+        parent::__construct($name);
+        $this->client = Client::createChromeClient('./chromedriver', [
             '--window-size=1400,1000',
             '--disable-notifications'
         ]);
+        $this->pagesToCrawl = $textFileExtractor->getData('config/app/pages-to-crawl.txt');
+        $this->postSearchTerms = $textFileExtractor->getData('config/app/post-terms.txt');
+        $this->commentSearchTerms = $textFileExtractor->getData('config/app/comment-terms.txt');
+        $this->logger = new Logger('log/log.txt', true, true);
     }
+
+    protected static $defaultName = 'app:run';
 
     public function getFacebookCredentials(): array
     {
@@ -72,47 +57,73 @@ class RunCommand extends Command
         ];
     }
 
-    public function login(Client $client, array $credentials): void
+    private function login(array $credentials): void
     {
-        $client->request('GET', 'https://facebook.com');
-        $client->submitForm(
+        $this->client->request('GET', 'https://facebook.com');
+        $this->client->submitForm(
             'Aanmelden', [
                 'email' => $credentials['user'],
                 'pass' => $credentials['pass']
             ]
         );
+        $this->logger->log('Logged in', 'Success');
     }
 
-    public function findCoronaRelatedMessages(Client $client, string $page): array
+    private function searchForPage(string $page): void
     {
-        $client->findElement(
-            WebDriverBy::cssSelector('input[placeholder=Zoeken]')
-        )->sendKeys($page . "\n");
-
+        $this->client->request('GET', 'https://facebook.com');
         sleep(5);
+        $searchSelector = 'input[name=q]';
+        try {
+            $this->client->waitFor($searchSelector);
+        } catch (\Exception $e) {
+            $this->logger->log(sprintf('Unable to locate the search bar for page "%s". Retrying', $page), 'Error');
+            $this->searchForPage($page);
+        }
+        $this->client->findElement(
+            WebDriverBy::cssSelector($searchSelector)
+        )->sendKeys($page . PHP_EOL);
+    }
 
-        $client
+    private function findPostsMatchingTerms(string $page, array $terms): array
+    {
+        $this->searchForPage($page);
+        $pageLinkSelector = 'img[alt="' . $page . '"][width="72"][height="72"]';
+        try {
+            $this->client->waitFor($pageLinkSelector);
+        } catch (\Exception $e) {
+            $this->logger->log(sprintf('Unable to locate the page image for page "%s". Retrying', $page), 'Error');
+            $this->findPostsMatchingTerms($page, $terms);
+        }
+        $this->client
             ->findElement(
-                WebDriverBy::linkText($page)
+                WebDriverBy::cssSelector($pageLinkSelector)
             )->click()
         ;
-
-        sleep(5);
-
-        $client
+        $postsLinkSelector = 'div[data-key="tab_posts"]';
+        try {
+            $this->client->waitFor($postsLinkSelector);
+        } catch (\Exception $e) {
+            $this->logger->log(sprintf('Unable to locate the messages tab for page "%s". Retrying', $page), 'Error');
+            $this->findPostsMatchingTerms($page, $terms);
+        }
+        $this->client
             ->findElement(
-                WebDriverBy::linkText('Berichten')
+                WebDriverBy::cssSelector($postsLinkSelector)
             )->click()
         ;
-
-        sleep(5);
-
-        $posts = $client
+        $postsSelector = '#pagelet_timeline_main_column > div:first-child > div:nth-child(2) > div:first-child > div';
+        try {
+            $this->client->waitFor($postsSelector);
+        } catch (\Exception $e) {
+            $this->logger->log(sprintf('Unable to locate the main posts div for page "%s". Retrying', $page), 'Critical');
+            $this->findPostsMatchingTerms($page, $terms);
+        }
+        $posts = $this->client
             ->findElements(
-                WebDriverBy::cssSelector('#pagelet_timeline_main_column > div:first-child > div:nth-child(2) > div:first-child > div')
+                WebDriverBy::cssSelector($postsSelector)
         );
-
-        $posts = array_filter($posts, function($post) {
+        $posts = array_filter($posts, function($post) use ($terms) {
             $class = $post->getAttribute('class');
             if (!$class) {
                 return false;
@@ -126,38 +137,76 @@ class RunCommand extends Command
                     WebDriverBy::cssSelector($postSelector)
                 )->getText()
             ;
-            foreach (self::TERMS_CORONA as $term) {
+            foreach ($terms as $term) {
                 if (str_contains(strtolower($text), strtolower($term))) {
                     return true;
                 }
             }
             return false;
         });
-        return $posts;
+
+        $this->logger->log(sprintf('Found %s posts matching terms for page "%s"', count($posts), $page), 'Info');
+
+        return array_values($posts);
     }
 
-    public function findStupidComments(RemoteWebElement $post): array
+    private function findCommentsMatchingTerms(RemoteWebElement $post): array
     {
+        $commentDropdownMenu = $post
+            ->findElement(
+                WebDriverBy::cssSelector('a[data-ordering="RANKED_THREADED"]')
+            )
+        ;
+        $commentDropdownMenu->click();
+        $this->client
+            ->findElement(
+                WebDriverBy::cssSelector('ul[role="menu"] > li:nth-child(3) > a:first-child')
+        )->click();
 
+        sleep(5);
+
+        while (true) {
+            try {
+                $post
+                    ->findElement(
+                        WebDriverBy::partialLinkText('weergeven')
+                    )->click()
+                ;
+                sleep(3);
+            } catch (\Exception $exception) {
+                break;
+            }
+        }
+
+        echo 'Done scanning comments' . PHP_EOL;
+
+        return [];
+
+//        $comments = $post->findElements(
+//            WebDriverBy::cssSelector('div:first-child > div:first-child > div:first-child > div:nth-child(2) > div:nth-child(2) > form:first-child > div:first-child > div:nth-child(3) > ')
+//        );
     }
 
-    public function placeCommentIfNotExists(RemoteWebElement $post, RemoteWebElement $stupidComment): void
+    private function placeCommentIfNotExists(RemoteWebElement $post, RemoteWebElement $stupidComment): void
     {
 
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $client = $this->getClient();
-        $credentials = $this->getFacebookCredentials();
-        $this->login($client, $credentials);
-        $posts = $this->findCoronaRelatedMessages($client, 'RTL Nieuws');
-        foreach ($posts as $post) {
-            $stupidComments = $this->findStupidComments($post);
-            foreach ($stupidComments as $stupidComment) {
-                $this->placeCommentIfNotExists($post, $stupidComment);
+        while(true) {
+            $this->logger->log('Initiated', 'Info');
+            $this->login($this->getFacebookCredentials());
+            foreach ($this->pagesToCrawl as $page) {
+                $posts = $this->findPostsMatchingTerms($page, $this->postSearchTerms);
+                foreach ($posts as $key => $post) {
+                    $this->logger->log('Processing post ' . $key, 'Info');
+                    $comments = $this->findCommentsMatchingTerms($post);
+                }
             }
         }
+
+        die();
         return 0;
     }
 }
