@@ -106,7 +106,6 @@ class RunCommand extends Command
             ;
             foreach (self::TERMS_CORONA as $term) {
                 if (str_contains(strtolower($text), strtolower($term))) {
-                    dump(true);
                     return true;
                 }
             }
