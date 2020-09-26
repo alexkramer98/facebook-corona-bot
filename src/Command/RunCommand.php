@@ -4,6 +4,7 @@ namespace App\Command;
 
 use App\Service\Logger;
 use App\Service\TextFileExtractor;
+use Facebook\WebDriver\Exception\NoSuchElementException;
 use Facebook\WebDriver\Remote\RemoteWebElement;
 use Facebook\WebDriver\WebDriverBy;
 use Symfony\Component\Console\Command\Command;
@@ -182,8 +183,7 @@ class RunCommand extends Command
             }
         }
         $comments = $post->findElements(
-            WebDriverBy::cssSelector('div[aria-label="Opmerking"]'
-            )
+            WebDriverBy::cssSelector('div[aria-label="Opmerking"]')
         );
         $terms = implode('|', $this->commentSearchTerms);
         $comments = array_filter($comments, function($comment) use ($terms) {
@@ -195,14 +195,77 @@ class RunCommand extends Command
 
     private function placeCommentIfNotExists(RemoteWebElement $comment): void
     {
-        dump($comment);
+        $subCommentsDiv = $comment->findElement(
+            WebDriverBy::xpath('../../div[2]')
+        );
+        try {
+            $subCommentsLink = $subCommentsDiv->findElement(
+                WebDriverBy::partialLinkText(' antwoord')
+            );
+            $subCommentsLink->click();
+
+            sleep(5);
+
+            while (true) {
+                try {
+                    $loadMoreCommentsLink = $subCommentsDiv
+                        ->findElement(
+                            WebDriverBy::partialLinkText(' antwoorden weergeven')
+                        )
+                    ;
+                    $loadMoreCommentsLink->click();
+                    sleep(3);
+                } catch (\Exception $exception) {
+                    break;
+                }
+            }
+
+            if (str_contains($subCommentsDiv->getText(), $_ENV['FB_ACCOUNT_NAME'])) {
+                $this->logger->log('This comment has already been answered by bot. Skipping', 'Info');
+                return;
+            }
+
+            echo 'PLACING COMMENT for ' . $comment->getText() . PHP_EOL;
+
+            $this->placeComment($subCommentsDiv);
+
+            return;
+        } catch (NoSuchElementException $exception) {
+        }
+        $comment
+            ->findElement(
+                WebDriverBy::linkText('Beantwoorden')
+            )->click()
+        ;
+        sleep(5);
+
+        echo 'PLACING COMMENT for ' . $comment->getText() . PHP_EOL;
+
+        $this->placeComment($subCommentsDiv);
+    }
+
+    private function placeComment(RemoteWebElement $subCommentsDiv): void
+    {
+        $commentTextBox = $subCommentsDiv
+            ->findElement(
+                WebDriverBy::cssSelector('div[role="textbox"]')
+        );
+//        $this->client->executeScript(
+//          'document.querySelector("div[role=\'textbox\']").scrollIntoView();'
+//        );
+//        echo 'scrolled';
+//        sleep(5);
+        $commentTextBox->click();
+        $commentTextBox->sendKeys('TEST TEST TEST TEST TEST');
+        $this->logger->log('Placed comment!!', 'Success');
+        sleep(20);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->logger->log('Initiated', 'Info');
         $this->login($this->getFacebookCredentials());
-        foreach ($this->pagesToCrawl as $page) {
+        foreach ($this->pagesToCrawl as $index => $page) {
             $posts = $this->findPostsMatchingTerms($page, $this->postSearchTerms);
             foreach ($posts as $key => $post) {
                 $this->logger->log('Processing post ' . $key, 'Info');
@@ -212,8 +275,6 @@ class RunCommand extends Command
                 }
             }
         }
-
-        die();
         return 0;
     }
 }
