@@ -305,6 +305,11 @@ class RunCommand extends Command
         sleep(5);
     }
 
+    /**
+     * @param string $comment
+     * @param array $terms
+     * @return array
+     */
     private function getMatchingTerms(string $comment, array $terms): array
     {
         $matchingTerms = [];
@@ -337,7 +342,7 @@ class RunCommand extends Command
         $answer = str_replace('{matchingTerms}', implode(', ', $matchingTerms), $this->answerBase);
         $answer = str_replace('{debunks}', implode(WebDriverKeys::SHIFT . WebDriverKeys::ENTER . WebDriverKeys::SHIFT, $debunks), $answer);
 
-        $commentTextBox->sendKeys($answer . PHP_EOL);
+        $commentTextBox->sendKeys($answer);
         $this->logger->log('Placed answer!! Sleeping for 2 minutes to try to avoid rate limiting', 'Success');
         sleep(120);
     }
