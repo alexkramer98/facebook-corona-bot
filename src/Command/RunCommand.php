@@ -160,7 +160,7 @@ class RunCommand extends Command
                 )
             ;
             $commentDropdownMenu->click();
-        } catch (\Exception $exception) {
+        } catch (NoSuchElementException $exception) {
             return [];
         }
         $this->client
@@ -172,7 +172,7 @@ class RunCommand extends Command
 
         while (true) {
             try {
-                $post
+                 $post
                     ->findElement(
                         WebDriverBy::partialLinkText('opmerkingen weergeven')
                     )->click()
@@ -202,6 +202,7 @@ class RunCommand extends Command
             $subCommentsLink = $subCommentsDiv->findElement(
                 WebDriverBy::partialLinkText(' antwoord')
             );
+            $this->scrollIntoView($subCommentsLink);
             $subCommentsLink->click();
 
             sleep(5);
@@ -215,7 +216,7 @@ class RunCommand extends Command
                     ;
                     $loadMoreCommentsLink->click();
                     sleep(3);
-                } catch (\Exception $exception) {
+                } catch (NoSuchElementException $exception) {
                     break;
                 }
             }
@@ -224,24 +225,37 @@ class RunCommand extends Command
                 $this->logger->log('This comment has already been answered by bot. Skipping', 'Info');
                 return;
             }
-
-            echo 'PLACING COMMENT for ' . $comment->getText() . PHP_EOL;
-
             $this->placeComment($subCommentsDiv);
-
             return;
         } catch (NoSuchElementException $exception) {
+            sleep(5);
+
+            $answerButton = $comment
+                ->findElement(
+                    WebDriverBy::linkText('Beantwoorden')
+                )
+            ;
+
+            $this->scrollIntoView($answerButton);
+            $answerButton->click();
+
+            sleep(5);
+
+            $this->placeComment($subCommentsDiv);
         }
-        $comment
-            ->findElement(
-                WebDriverBy::linkText('Beantwoorden')
-            )->click()
+    }
+
+    private function scrollIntoView(RemoteWebElement  $element): void
+    {
+        $yPosition = $element
+            ->getCoordinates()
+            ->onPage()
+            ->getY()
+        ;
+        $this->client
+            ->executeScript('window.scroll(0, '.($yPosition-200).')')
         ;
         sleep(5);
-
-        echo 'PLACING COMMENT for ' . $comment->getText() . PHP_EOL;
-
-        $this->placeComment($subCommentsDiv);
     }
 
     private function placeComment(RemoteWebElement $subCommentsDiv): void
@@ -250,31 +264,29 @@ class RunCommand extends Command
             ->findElement(
                 WebDriverBy::cssSelector('div[role="textbox"]')
         );
-//        $this->client->executeScript(
-//          'document.querySelector("div[role=\'textbox\']").scrollIntoView();'
-//        );
-//        echo 'scrolled';
-//        sleep(5);
+        $this->scrollIntoView($commentTextBox);
         $commentTextBox->click();
         $commentTextBox->sendKeys('TEST TEST TEST TEST TEST');
-        $this->logger->log('Placed comment!!', 'Success');
+        $this->logger->log('Placed comment!! Sleeping for 5 minutes to avoid detection', 'Success');
         sleep(20);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->logger->log('Initiated', 'Info');
-        $this->login($this->getFacebookCredentials());
-        foreach ($this->pagesToCrawl as $index => $page) {
-            $posts = $this->findPostsMatchingTerms($page, $this->postSearchTerms);
-            foreach ($posts as $key => $post) {
-                $this->logger->log('Processing post ' . $key, 'Info');
-                $comments = $this->findCommentsMatchingTerms($post);
-                foreach($comments as $comment) {
-                    $this->placeCommentIfNotExists($comment);
+        while (true) {
+            $this->logger->log('Initiated', 'Info');
+            $this->login($this->getFacebookCredentials());
+            foreach ($this->pagesToCrawl as $index => $page) {
+                $posts = $this->findPostsMatchingTerms($page, $this->postSearchTerms);
+                foreach ($posts as $key => $post) {
+                    $this->logger->log('Processing post ' . $key, 'Info');
+                    $comments = $this->findCommentsMatchingTerms($post);
+                    foreach($comments as $comment) {
+                        $this->placeCommentIfNotExists($comment);
+                    }
                 }
             }
+            return 0;
         }
-        return 0;
     }
 }
