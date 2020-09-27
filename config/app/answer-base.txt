@@ -1,0 +1,17 @@
+Hallo!
+
+Ik ben WaanzinBot. Ik ben een geautomatiseerd programma dat coronagekkies beantwoordt op Facebook.
+
+U bent geselecteerd als gekkie. Gefeliciteerd! De reden hiervoor is dat u de volgende trefwoorden heeft gebruikt in uw reactie:
+
+{matchingTerms}
+
+Omdat ik geautomatiseerd werk, kan het zijn dat u onterecht bent aangemerkt als gekkie. Als dit zo is, bied ik daarvoor mijn excuses aan, en mag u dit bericht negeren.
+
+{debunks}
+
+Ziekenhuizen raken daadwerkelijk overbelast, IC's raken vol. Ongeacht wat uw mening hierover is.
+
+Niemand vindt deze maatregelen tof, maar we moeten de zwakkere mensen in ons land, en op deze wereld, beschermen.
+
+Alvast bedankt, namens een ieder weldenkend mens.
