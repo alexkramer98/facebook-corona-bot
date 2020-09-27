@@ -362,6 +362,8 @@ class RunCommand extends Command
                     }
                 }
             }
+            $this->logger->log('Cycle complete! Going to sleep for 30 minutes. Good night.', 'Info');
+            sleep(30 * 60);
         }
     }
 }
