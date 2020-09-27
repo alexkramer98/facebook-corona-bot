@@ -190,7 +190,7 @@ class RunCommand extends Command
             return preg_match('('.$terms.')', $comment->getText()) === 1;
         });
         $this->logger->log(sprintf('Found %s matching comments', count($comments)), 'Info');
-        return $comments;
+        return array_values($comments);
     }
 
     /**
@@ -313,15 +313,17 @@ class RunCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $this->logger->log('Initiated', 'Info');
+        $this->login($this->getFacebookCredentials());
         while (true) {
-            $this->logger->log('Initiated', 'Info');
-            $this->login($this->getFacebookCredentials());
             foreach ($this->pagesToCrawl as $index => $page) {
+                $this->logger->log('Starting cycle', 'Info');
                 $posts = $this->findPostsMatchingTerms($page, $this->postSearchTerms);
                 foreach ($posts as $key => $post) {
                     $this->logger->log('Processing post ' . $key, 'Info');
                     $comments = $this->findCommentsMatchingTerms($post);
-                    foreach($comments as $comment) {
+                    foreach($comments as $index => $comment) {
+                        $this->logger->log('Processing comment ' . $index, 'Info');
                         $this->placeCommentIfNotExists($comment);
                     }
                 }

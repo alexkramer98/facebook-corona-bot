@@ -1,11 +1,3 @@
-27-09-2020 18:03:07 - [Info] Initiated
-27-09-2020 18:03:12 - [Success] Logged in
-27-09-2020 18:28:34 - [Info] Initiated
-27-09-2020 18:28:40 - [Success] Logged in
-27-09-2020 18:49:03 - [Info] Initiated
-27-09-2020 18:49:10 - [Success] Logged in
-27-09-2020 19:36:32 - [Info] Initiated
-27-09-2020 19:36:43 - [Success] Logged in
 27-09-2020 19:36:56 - [Info] Found 2 posts matching terms for page "RTL Nieuws"
 27-09-2020 19:36:56 - [Info] Processing post 0
 27-09-2020 19:37:06 - [Info] Found 0 matching comments
@@ -128,3 +120,64 @@
 27-09-2020 20:28:09 - [Info] Found 1 matching comments
 27-09-2020 20:28:19 - [Info] This comment has already been answered by bot. Skipping
 27-09-2020 20:28:19 - [Info] Cycle complete! Going to sleep for 30 minutes. Good night.
+27-09-2020 20:54:10 - [Info] Initiated
+27-09-2020 20:54:16 - [Success] Logged in
+27-09-2020 20:54:22 - [Info] Found 3 posts matching terms for page "rtlnieuws"
+27-09-2020 20:54:22 - [Info] Processing post 0
+27-09-2020 20:54:31 - [Info] Found 0 matching comments
+27-09-2020 20:54:31 - [Info] Processing post 1
+27-09-2020 20:54:42 - [Info] Found 0 matching comments
+27-09-2020 20:54:42 - [Info] Processing post 2
+27-09-2020 20:54:58 - [Info] Found 2 matching comments
+27-09-2020 20:55:08 - [Info] This comment has already been answered by bot. Skipping
+27-09-2020 20:55:19 - [Info] This comment has already been answered by bot. Skipping
+27-09-2020 20:55:25 - [Info] Found 1 posts matching terms for page "nos"
+27-09-2020 20:55:25 - [Info] Processing post 0
+27-09-2020 20:55:43 - [Info] Found 1 matching comments
+27-09-2020 20:55:54 - [Info] This comment has already been answered by bot. Skipping
+27-09-2020 20:55:59 - [Info] Found 1 posts matching terms for page "telegraaf"
+27-09-2020 20:55:59 - [Info] Processing post 0
+27-09-2020 20:56:10 - [Info] Found 0 matching comments
+27-09-2020 20:56:16 - [Info] Found 2 posts matching terms for page "paroolnl"
+27-09-2020 20:56:16 - [Info] Processing post 0
+27-09-2020 20:56:26 - [Info] Found 0 matching comments
+27-09-2020 20:56:26 - [Info] Processing post 1
+27-09-2020 20:56:36 - [Info] Found 0 matching comments
+27-09-2020 20:56:36 - [Info] Cycle complete! Going to sleep for 30 minutes. Good night.
+27-09-2020 21:26:36 - [Info] Initiated
+27-09-2020 21:27:49 - [Info] Initiated
+27-09-2020 21:27:54 - [Success] Logged in
+27-09-2020 21:27:54 - [Info] Starting cycle
+27-09-2020 21:27:59 - [Info] Found 3 posts matching terms for page "rtlnieuws"
+27-09-2020 21:27:59 - [Info] Processing post 0
+27-09-2020 21:28:08 - [Info] Found 0 matching comments
+27-09-2020 21:28:08 - [Info] Processing post 1
+27-09-2020 21:28:19 - [Info] Found 0 matching comments
+27-09-2020 21:28:19 - [Info] Processing post 2
+27-09-2020 21:28:35 - [Info] Found 2 matching comments
+27-09-2020 21:28:35 - [Info] Processing comment 6
+27-09-2020 21:28:45 - [Info] This comment has already been answered by bot. Skipping
+27-09-2020 21:28:45 - [Info] Processing comment 43
+27-09-2020 21:28:56 - [Info] This comment has already been answered by bot. Skipping
+27-09-2020 21:28:56 - [Info] Starting cycle
+27-09-2020 21:29:00 - [Info] Found 1 posts matching terms for page "nos"
+27-09-2020 21:29:00 - [Info] Processing post 0
+27-09-2020 21:29:19 - [Info] Found 0 matching comments
+27-09-2020 21:29:19 - [Info] Starting cycle
+27-09-2020 21:29:23 - [Info] Found 2 posts matching terms for page "telegraaf"
+27-09-2020 21:29:23 - [Info] Processing post 0
+27-09-2020 21:29:36 - [Info] Found 2 matching comments
+27-09-2020 21:29:36 - [Info] Processing comment 12
+27-09-2020 21:30:03 - [Success] Placed answer!! Sleeping for 2 minutes to try to avoid rate limiting
+27-09-2020 21:32:03 - [Info] Processing comment 45
+27-09-2020 21:32:39 - [Success] Placed answer!! Sleeping for 2 minutes to try to avoid rate limiting
+27-09-2020 21:34:39 - [Info] Processing post 1
+27-09-2020 21:34:56 - [Info] Found 0 matching comments
+27-09-2020 21:34:56 - [Info] Starting cycle
+27-09-2020 21:35:00 - [Info] Found 3 posts matching terms for page "paroolnl"
+27-09-2020 21:35:00 - [Info] Processing post 0
+27-09-2020 21:35:00 - [Info] Processing post 1
+27-09-2020 21:35:11 - [Info] Found 0 matching comments
+27-09-2020 21:35:11 - [Info] Processing post 2
+27-09-2020 21:35:21 - [Info] Found 0 matching comments
+27-09-2020 21:35:21 - [Info] Cycle complete! Going to sleep for 30 minutes. Good night.
