@@ -2,3 +2,129 @@
 27-09-2020 18:03:12 - [Success] Logged in
 27-09-2020 18:28:34 - [Info] Initiated
 27-09-2020 18:28:40 - [Success] Logged in
+27-09-2020 18:49:03 - [Info] Initiated
+27-09-2020 18:49:10 - [Success] Logged in
+27-09-2020 19:36:32 - [Info] Initiated
+27-09-2020 19:36:43 - [Success] Logged in
+27-09-2020 19:36:56 - [Info] Found 2 posts matching terms for page "RTL Nieuws"
+27-09-2020 19:36:56 - [Info] Processing post 0
+27-09-2020 19:37:06 - [Info] Found 0 matching comments
+27-09-2020 19:37:06 - [Info] Processing post 1
+27-09-2020 19:37:18 - [Info] Found 0 matching comments
+27-09-2020 19:37:44 - [Info] Initiated
+27-09-2020 19:37:51 - [Success] Logged in
+27-09-2020 19:38:04 - [Info] Found 2 posts matching terms for page "RTL Nieuws"
+27-09-2020 19:38:04 - [Info] Processing post 0
+27-09-2020 19:38:14 - [Info] Found 0 matching comments
+27-09-2020 19:38:14 - [Info] Processing post 1
+27-09-2020 19:38:27 - [Info] Found 2 matching comments
+27-09-2020 19:39:41 - [Info] Initiated
+27-09-2020 19:40:13 - [Info] Initiated
+27-09-2020 19:40:19 - [Success] Logged in
+27-09-2020 19:40:30 - [Info] Found 2 posts matching terms for page "RTL Nieuws"
+27-09-2020 19:40:30 - [Info] Processing post 0
+27-09-2020 19:40:40 - [Info] Found 0 matching comments
+27-09-2020 19:40:40 - [Info] Processing post 1
+27-09-2020 19:40:53 - [Info] Found 2 matching comments
+27-09-2020 19:41:21 - [Success] Placed answer!! Sleeping for 2 minutes to try to avoid rate limiting
+27-09-2020 19:44:30 - [Info] Initiated
+27-09-2020 19:44:37 - [Success] Logged in
+27-09-2020 19:44:49 - [Info] Found 2 posts matching terms for page "RTL Nieuws"
+27-09-2020 19:44:49 - [Info] Processing post 0
+27-09-2020 19:44:59 - [Info] Found 0 matching comments
+27-09-2020 19:44:59 - [Info] Processing post 1
+27-09-2020 19:45:11 - [Info] Found 2 matching comments
+27-09-2020 19:47:11 - [Info] Initiated
+27-09-2020 19:47:16 - [Success] Logged in
+27-09-2020 19:52:41 - [Info] Initiated
+27-09-2020 19:52:47 - [Success] Logged in
+27-09-2020 19:53:15 - [Info] Initiated
+27-09-2020 19:53:21 - [Success] Logged in
+27-09-2020 19:53:51 - [Info] Initiated
+27-09-2020 19:53:56 - [Success] Logged in
+27-09-2020 19:54:09 - [Info] Initiated
+27-09-2020 19:54:17 - [Success] Logged in
+27-09-2020 19:54:21 - [Info] Found 2 posts matching terms for page "rtlnieuws"
+27-09-2020 19:54:21 - [Info] Processing post 0
+27-09-2020 19:54:31 - [Info] Found 0 matching comments
+27-09-2020 19:54:31 - [Info] Processing post 1
+27-09-2020 19:54:44 - [Info] Found 2 matching comments
+27-09-2020 19:55:12 - [Success] Placed answer!! Sleeping for 2 minutes to try to avoid rate limiting
+27-09-2020 19:57:40 - [Success] Placed answer!! Sleeping for 2 minutes to try to avoid rate limiting
+27-09-2020 19:59:45 - [Info] Found 2 posts matching terms for page "nos"
+27-09-2020 19:59:45 - [Info] Processing post 0
+27-09-2020 20:00:02 - [Info] Found 1 matching comments
+27-09-2020 20:00:35 - [Success] Placed answer!! Sleeping for 2 minutes to try to avoid rate limiting
+27-09-2020 20:02:35 - [Info] Processing post 1
+27-09-2020 20:03:08 - [Info] Found 1 matching comments
+27-09-2020 20:03:39 - [Success] Placed answer!! Sleeping for 2 minutes to try to avoid rate limiting
+27-09-2020 20:06:11 - [Critical] Unable to locate the main posts div for page "detelegraaf". Retrying
+27-09-2020 20:07:06 - [Info] Initiated
+27-09-2020 20:07:12 - [Success] Logged in
+27-09-2020 20:07:17 - [Info] Found 3 posts matching terms for page "rtlnieuws"
+27-09-2020 20:07:17 - [Info] Processing post 0
+27-09-2020 20:07:23 - [Info] Found 0 matching comments
+27-09-2020 20:07:23 - [Info] Processing post 1
+27-09-2020 20:07:33 - [Info] Found 0 matching comments
+27-09-2020 20:07:33 - [Info] Processing post 2
+27-09-2020 20:07:49 - [Info] Found 2 matching comments
+27-09-2020 20:07:59 - [Info] This comment has already been answered by bot. Skipping
+27-09-2020 20:08:10 - [Info] This comment has already been answered by bot. Skipping
+27-09-2020 20:08:15 - [Info] Found 2 posts matching terms for page "nos"
+27-09-2020 20:08:15 - [Info] Processing post 0
+27-09-2020 20:08:31 - [Info] Found 1 matching comments
+27-09-2020 20:08:41 - [Info] This comment has already been answered by bot. Skipping
+27-09-2020 20:08:41 - [Info] Processing post 1
+27-09-2020 20:09:15 - [Info] Found 1 matching comments
+27-09-2020 20:09:25 - [Info] This comment has already been answered by bot. Skipping
+27-09-2020 20:09:30 - [Info] Found 1 posts matching terms for page "telegraaf"
+27-09-2020 20:09:30 - [Info] Processing post 0
+27-09-2020 20:09:41 - [Info] Found 0 matching comments
+27-09-2020 20:09:45 - [Info] Found 2 posts matching terms for page "paroolnl"
+27-09-2020 20:09:45 - [Info] Processing post 0
+27-09-2020 20:09:54 - [Info] Found 0 matching comments
+27-09-2020 20:09:54 - [Info] Processing post 1
+27-09-2020 20:10:04 - [Info] Found 1 matching comments
+27-09-2020 20:10:31 - [Success] Placed answer!! Sleeping for 2 minutes to try to avoid rate limiting
+27-09-2020 20:12:31 - [Info] Cycle complete! Going to sleep for 30 minutes. Good night.
+27-09-2020 20:16:30 - [Info] Initiated
+27-09-2020 20:16:36 - [Success] Logged in
+27-09-2020 20:16:41 - [Info] Found 3 posts matching terms for page "rtlnieuws"
+27-09-2020 20:16:41 - [Info] Processing post 0
+27-09-2020 20:16:50 - [Info] Found 0 matching comments
+27-09-2020 20:16:50 - [Info] Processing post 1
+27-09-2020 20:17:00 - [Info] Found 0 matching comments
+27-09-2020 20:17:00 - [Info] Processing post 2
+27-09-2020 20:17:16 - [Info] Found 3 matching comments
+27-09-2020 20:17:26 - [Info] This comment has already been answered by bot. Skipping
+27-09-2020 20:17:37 - [Info] This comment has already been answered by bot. Skipping
+27-09-2020 20:18:09 - [Success] Placed answer!! Sleeping for 2 minutes to try to avoid rate limiting
+27-09-2020 20:22:39 - [Info] Initiated
+27-09-2020 20:22:45 - [Success] Logged in
+27-09-2020 20:22:50 - [Info] Found 3 posts matching terms for page "rtlnieuws"
+27-09-2020 20:22:50 - [Info] Processing post 0
+27-09-2020 20:22:59 - [Info] Found 0 matching comments
+27-09-2020 20:22:59 - [Info] Processing post 1
+27-09-2020 20:23:09 - [Info] Found 0 matching comments
+27-09-2020 20:23:09 - [Info] Processing post 2
+27-09-2020 20:23:25 - [Info] Found 2 matching comments
+27-09-2020 20:23:35 - [Info] This comment has already been answered by bot. Skipping
+27-09-2020 20:23:46 - [Info] This comment has already been answered by bot. Skipping
+27-09-2020 20:23:51 - [Info] Found 2 posts matching terms for page "nos"
+27-09-2020 20:23:51 - [Info] Processing post 0
+27-09-2020 20:24:08 - [Info] Found 2 matching comments
+27-09-2020 20:24:18 - [Info] This comment has already been answered by bot. Skipping
+27-09-2020 20:24:45 - [Success] Placed answer!! Sleeping for 2 minutes to try to avoid rate limiting
+27-09-2020 20:26:45 - [Info] Processing post 1
+27-09-2020 20:27:19 - [Info] Found 1 matching comments
+27-09-2020 20:27:30 - [Info] This comment has already been answered by bot. Skipping
+27-09-2020 20:27:34 - [Info] Found 1 posts matching terms for page "telegraaf"
+27-09-2020 20:27:34 - [Info] Processing post 0
+27-09-2020 20:27:46 - [Info] Found 0 matching comments
+27-09-2020 20:27:49 - [Info] Found 2 posts matching terms for page "paroolnl"
+27-09-2020 20:27:49 - [Info] Processing post 0
+27-09-2020 20:27:59 - [Info] Found 0 matching comments
+27-09-2020 20:27:59 - [Info] Processing post 1
+27-09-2020 20:28:09 - [Info] Found 1 matching comments
+27-09-2020 20:28:19 - [Info] This comment has already been answered by bot. Skipping
+27-09-2020 20:28:19 - [Info] Cycle complete! Going to sleep for 30 minutes. Good night.

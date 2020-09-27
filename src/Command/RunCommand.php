@@ -101,54 +101,13 @@ class RunCommand extends Command
 
     /**
      * @param string $page
-     */
-    private function searchForPage(string $page): void
-    {
-        $this->client->request('GET', 'https://facebook.com');
-        sleep(5);
-        $searchSelector = 'input[name=q]';
-        try {
-            $this->client->waitFor($searchSelector);
-        } catch (\Exception $e) {
-            $this->logger->log(sprintf('Unable to locate the search bar for page "%s". Retrying', $page), 'Error');
-            $this->searchForPage($page);
-        }
-        $this->client->findElement(
-            WebDriverBy::cssSelector($searchSelector)
-        )->sendKeys($page . PHP_EOL);
-    }
-
-    /**
-     * @param string $page
      * @param array $terms
      * @return array
      */
     private function findPostsMatchingTerms(string $page, array $terms): array
     {
-        $this->searchForPage($page);
-        $pageLinkSelector = 'img[alt="' . $page . '"][width="72"][height="72"]';
-        try {
-            $this->client->waitFor($pageLinkSelector);
-        } catch (\Exception $e) {
-            $this->logger->log(sprintf('Unable to locate the page image for page "%s". Retrying', $page), 'Error');
-            $this->findPostsMatchingTerms($page, $terms);
-        }
         $this->client
-            ->findElement(
-                WebDriverBy::cssSelector($pageLinkSelector)
-            )->click()
-        ;
-        $postsLinkSelector = 'div[data-key="tab_posts"]';
-        try {
-            $this->client->waitFor($postsLinkSelector);
-        } catch (\Exception $e) {
-            $this->logger->log(sprintf('Unable to locate the messages tab for page "%s". Retrying', $page), 'Error');
-            $this->findPostsMatchingTerms($page, $terms);
-        }
-        $this->client
-            ->findElement(
-                WebDriverBy::cssSelector($postsLinkSelector)
-            )->click()
+            ->request('GET', 'https://facebook.com/pg/' . $page . '/posts/?ref=page_internal')
         ;
         $postsSelector = '#pagelet_timeline_main_column > div:first-child > div:nth-child(2) > div:first-child > div';
         try {
@@ -300,7 +259,7 @@ class RunCommand extends Command
             ->getY()
         ;
         $this->client
-            ->executeScript('window.scroll(0, '.($yPosition-200).')')
+            ->executeScript('window.scroll(0, '.($yPosition-600).')')
         ;
         sleep(5);
     }
@@ -337,12 +296,12 @@ class RunCommand extends Command
         $matchingTerms = $this->getMatchingTerms($commentText, array_keys($this->commentSearchTerms));
         $debunks = [];
         foreach ($matchingTerms as $term) {
-            $debunks[] = ucfirst($term) . ': ' . $this->commentSearchTerms[$term] . WebDriverKeys::SHIFT . WebDriverKeys::ENTER . WebDriverKeys::SHIFT;
+            $debunks[] = ucfirst($term) . ':' . WebDriverKeys::SHIFT . WebDriverKeys::ENTER . WebDriverKeys::SHIFT . $this->commentSearchTerms[$term] . WebDriverKeys::SHIFT . WebDriverKeys::ENTER . WebDriverKeys::SHIFT;
         }
         $answer = str_replace('{matchingTerms}', implode(', ', $matchingTerms), $this->answerBase);
         $answer = str_replace('{debunks}', implode(WebDriverKeys::SHIFT . WebDriverKeys::ENTER . WebDriverKeys::SHIFT, $debunks), $answer);
 
-        $commentTextBox->sendKeys($answer);
+        $commentTextBox->sendKeys($answer . PHP_EOL);
         $this->logger->log('Placed answer!! Sleeping for 2 minutes to try to avoid rate limiting', 'Success');
         sleep(120);
     }

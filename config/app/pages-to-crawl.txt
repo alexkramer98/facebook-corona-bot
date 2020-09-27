@@ -1,3 +1,4 @@
-RTL Nieuws
-NOS
-De Telegraaf
+rtlnieuws
+nos
+telegraaf
+paroolnl
